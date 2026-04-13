@@ -11,8 +11,7 @@ These projects are created as part of daily coding practice to improve programmi
 - ✊ Rock Paper Scissors  
 - ❓ Quiz Game  
 - ❌ Tic Tac-Toe
-
----
+- 🐍 Snake Game
 
 ## 🎯 Features
 - Console-based gameplay  
@@ -26,6 +25,7 @@ These projects are created as part of daily coding practice to improve programmi
 ## 🛠 Tech Stack
 - **C++**  
 - Standard Library (iostream, cstdlib, etc.)
+- inout output studio
 
 ---
 
