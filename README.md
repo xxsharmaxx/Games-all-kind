@@ -12,6 +12,7 @@ These projects are created as part of daily coding practice to improve programmi
 - ❓ Quiz Game  
 - ❌ Tic Tac-Toe
 - 🐍 Snake Game
+- 
 
 ## 🎯 Features
 - Console-based gameplay  
