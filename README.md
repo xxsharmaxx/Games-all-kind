@@ -13,6 +13,7 @@ These projects are created as part of daily coding practice to improve programmi
 - ❌ Tic Tac-Toe
 - 🐍 Snake Game
 - 🪢 Hangman_game
+- 👌 Minesweeper
 - 
 
 ## 🎯 Features
