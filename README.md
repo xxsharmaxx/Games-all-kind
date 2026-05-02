@@ -14,7 +14,8 @@ These projects are created as part of daily coding practice to improve programmi
 - 🐍 Snake Game
 - 🪢 Hangman_game
 - 👌 Minesweeper
-- 
+-    sudoku game
+-    detective-game 
 
 ## 🎯 Features
 - Console-based gameplay  
