@@ -15,7 +15,8 @@ These projects are created as part of daily coding practice to improve programmi
 - 🪢 Hangman_game
 - 👌 Minesweeper
 -    sudoku game
--    detective-game 
+-    detective-game
+-    cyber-heist-game
 
 ## 🎯 Features
 - Console-based gameplay  
