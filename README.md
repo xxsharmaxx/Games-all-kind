@@ -17,6 +17,7 @@ These projects are created as part of daily coding practice to improve programmi
 -    sudoku game
 -    detective-game
 -    cyber-heist-game
+-    cyber_heist_terminal
 
 ## 🎯 Features
 - Console-based gameplay  
