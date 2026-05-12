@@ -19,6 +19,7 @@ These projects are created as part of daily coding practice to improve programmi
 -    cyber-heist-game
 -    cyber_heist_terminal
 -    Zombie game
+-    weapons.cpp
 
 ## 🎯 Features
 - Console-based gameplay  
