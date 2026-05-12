@@ -18,6 +18,7 @@ These projects are created as part of daily coding practice to improve programmi
 -    detective-game
 -    cyber-heist-game
 -    cyber_heist_terminal
+-    Zombie game
 
 ## 🎯 Features
 - Console-based gameplay  
