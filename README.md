@@ -20,6 +20,7 @@ These projects are created as part of daily coding practice to improve programmi
 -    cyber_heist_terminal
 -    Zombie game
 -    weapons.cpp
+-    Blackjack Casino
 
 ## 🎯 Features
 - Console-based gameplay  
