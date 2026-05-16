@@ -21,6 +21,7 @@ These projects are created as part of daily coding practice to improve programmi
 -    Zombie game
 -    weapons.cpp
 -    Blackjack Casino
+-    Temple of God
 
 ## 🎯 Features
 - Console-based gameplay  
