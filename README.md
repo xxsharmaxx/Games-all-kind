@@ -22,6 +22,7 @@ These projects are created as part of daily coding practice to improve programmi
 -    weapons.cpp
 -    Blackjack Casino
 -    Temple of God
+-    AI Chat Terminal Bot
 
 ## 🎯 Features
 - Console-based gameplay  
