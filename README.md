@@ -14,15 +14,16 @@ These projects are created as part of daily coding practice to improve programmi
 - 🐍 Snake Game
 - 🪢 Hangman_game
 - 👌 Minesweeper
--    sudoku game
--    detective-game
--    cyber-heist-game
--    cyber_heist_terminal
--    Zombie game
--    weapons.cpp
--    Blackjack Casino
--    Temple of God
--    AI Chat Terminal Bot
+- 🧩 sudoku game
+- 🕵️ detective-game
+- ⚙️ cyber-heist-game
+- ⚙️ cyber_heist_terminal
+- 🧟 Zombie game
+- 🔫 weapons.cpp
+- ♠️ Blackjack Casino
+- 🛕 Temple of God
+- 🤖 AI Chat Terminal Bot
+- 🎯 shooter.cpp
 
 ## 🎯 Features
 - Console-based gameplay  
