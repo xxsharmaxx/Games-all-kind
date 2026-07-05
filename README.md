@@ -24,8 +24,7 @@ These projects are created as part of daily coding practice to improve programmi
 - 🛕 Temple of God
 - 🤖 AI Chat Terminal Bot
 - 🎯 shooter.cpp
-- 
-- 
+- Mario.cpp
 - 
 
 ## 🎯 Features
