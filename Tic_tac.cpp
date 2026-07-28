@@ -1,82 +1,101 @@
 #include <iostream>
+#include <vector>
+#include <string>
+
 using namespace std;
 
-char board[3][3] = {
-    {'1','2','3'},
-    {'4','5','6'},
-    {'7','8','9'}
-};
-
-void displayBoard() {
+// Function to draw the current state of the board
+void drawBoard(const vector<char>& board) {
     cout << "\n";
-    for(int i=0;i<3;i++) {
-        for(int j=0;j<3;j++) {
-            cout << " " << board[i][j];
-            if(j<2) cout << " |";
-        }
-        if(i<2) cout << "\n-----------\n";
-    }
-    cout << "\n";
+    cout << "     |     |     \n";
+    cout << "  " << board[0] << "  |  " << board[1] << "  |  " << board[2] << "  \n";
+    cout << "_____|_____|_____\n";
+    cout << "     |     |     \n";
+    cout << "  " << board[3] << "  |  " << board[4] << "  |  " << board[5] << "  \n";
+    cout << "_____|_____|_____\n";
+    cout << "     |     |     \n";
+    cout << "  " << board[6] << "  |  " << board[7] << "  |  " << board[8] << "  \n";
+    cout << "     |     |     \n\n";
 }
 
-bool checkWin() {
-    // Rows & Columns
-    for(int i=0;i<3;i++) {
-        if(board[i][0]==board[i][1] && board[i][1]==board[i][2]) return true;
-        if(board[0][i]==board[1][i] && board[1][i]==board[2][i]) return true;
+// Function to check if a specific player has won
+bool checkWin(const vector<char>& board, char player) {
+    // All 8 possible winning combinations
+    const int winCombinations[8][3] = {
+        {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Rows
+        {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // Columns
+        {0, 4, 8}, {2, 4, 6}             // Diagonals
+    };
+
+    for (int i = 0; i < 8; i++) {
+        if (board[winCombinations[i][0]] == player &&
+            board[winCombinations[i][1]] == player &&
+            board[winCombinations[i][2]] == player) {
+            return true;
+        }
     }
-
-    // Diagonals
-    if(board[0][0]==board[1][1] && board[1][1]==board[2][2]) return true;
-    if(board[0][2]==board[1][1] && board[1][1]==board[2][0]) return true;
-
     return false;
 }
 
-bool isFull() {
-    for(int i=0;i<3;i++)
-        for(int j=0;j<3;j++)
-            if(board[i][j] != 'X' && board[i][j] != 'O')
-                return false;
+// Function to check if the board is completely full (a tie)
+bool checkTie(const vector<char>& board) {
+    for (char cell : board) {
+        if (cell != 'X' && cell != 'O') {
+            return false; // There is still an empty spot (a number)
+        }
+    }
     return true;
 }
 
 int main() {
+    // Initialize board with numbers 1-9 to guide player input
+    vector<char> board = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    char currentPlayer = 'X';
     int choice;
-    char player = 'X';
+    bool gameOngoing = true;
 
-    cout << "===== Tic Tac Toe =====\n";
+    cout << "==========================\n";
+    cout << "   WELCOME TO TIC-TAC-TOE \n";
+    cout << "==========================\n";
 
-    while(true) {
-        displayBoard();
-
-        cout << "\nPlayer " << player << ", enter position: ";
+    while (gameOngoing) {
+        drawBoard(board);
+        cout << "Player " << currentPlayer << ", enter a number (1-9): ";
         cin >> choice;
 
-        int row = (choice - 1) / 3;
-        int col = (choice - 1) % 3;
-
-        if(board[row][col] == 'X' || board[row][col] == 'O') {
-            cout << "Invalid move! Try again.\n";
+        // Input validation
+        if (cin.fail() || choice < 1 || choice > 9) {
+            cin.clear(); // clear error flags
+            cin.ignore(10000, '\n'); // discard invalid input
+            cout << "Invalid input! Please enter a number between 1 and 9.\n";
             continue;
         }
 
-        board[row][col] = player;
-
-        if(checkWin()) {
-            displayBoard();
-            cout << "\nPlayer " << player << " wins! 🎉\n";
-            break;
+        // Check if the chosen spot is already taken
+        if (board[choice - 1] == 'X' || board[choice - 1] == 'O') {
+            cout << "That spot is already taken! Choose another one.\n";
+            continue;
         }
 
-        if(isFull()) {
-            displayBoard();
-            cout << "\nGame Draw! 🤝\n";
-            break;
-        }
+        // Place the player's mark on the board
+        board[choice - 1] = currentPlayer;
 
-        // Switch player
-        player = (player == 'X') ? 'O' : 'X';
+        // Check for a win
+        if (checkWin(board, currentPlayer)) {
+            drawBoard(board);
+            cout << "🎉 Congratulations! Player " << currentPlayer << " wins! 🎉\n";
+            gameOngoing = false;
+        } 
+        // Check for a tie
+        else if (checkTie(board)) {
+            drawBoard(board);
+            cout << "It's a tie! Well played both.\n";
+            gameOngoing = false;
+        } 
+        // Switch turns
+        else {
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+        }
     }
 
     return 0;
