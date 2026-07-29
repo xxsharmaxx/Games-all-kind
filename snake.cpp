@@ -1,162 +1,151 @@
 #include <iostream>
-#include <conio.h>
-#include <windows.h>
+#include <vector>
+#include <conio.h>    // For _kbhit() and _getch() (Windows only)
+#include <windows.h>  // For Sleep() and SetConsoleCursorPosition (Windows only)
+#include <cstdlib>
+#include <ctime>
+#include <string>
+
 using namespace std;
 
-bool gameOver;
-const int width = 20;
-const int height = 20;
-int x, y, fruitX, fruitY, score;
-int tailX[100], tailY[100];
-int nTail;
+// --- Game Settings ---
+const int WIDTH = 40;
+const int HEIGHT = 20;
 
-enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
-eDirection dir;
+enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
 
-void Setup() {
-    gameOver = false;
-    dir = STOP;
-    x = width / 2;
-    y = height / 2;
-    fruitX = rand() % width;
-    fruitY = rand() % height;
-    score = 0;
-    nTail = 0;
+struct Point {
+    int x, y;
+};
+
+// Hides the blinking console cursor
+void hideCursor() {
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+    info.dwSize = 100;
+    info.bVisible = FALSE;
+    SetConsoleCursorInfo(consoleHandle, &info);
 }
 
-void Draw() {
-    system("cls");
-
-    for (int i = 0; i < width + 2; i++)
-        cout << "#";
-    cout << endl;
-
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (j == 0)
-                cout << "#";
-
-            if (i == y && j == x)
-                cout << "O";
-            else if (i == fruitY && j == fruitX)
-                cout << "F";
-            else {
-                bool print = false;
-                for (int k = 0; k < nTail; k++) {
-                    if (tailX[k] == j && tailY[k] == i) {
-                        cout << "o";
-                        print = true;
-                    }
-                }
-                if (!print)
-                    cout << " ";
-            }
-
-            if (j == width - 1)
-                cout << "#";
-        }
-        cout << endl;
-    }
-
-    for (int i = 0; i < width + 2; i++)
-        cout << "#";
-    cout << endl;
-
-    cout << "Score: " << score << endl;
-    cout << "Controls: W = Up, S = Down, A = Left, D = Right, X = Exit" << endl;
-}
-
-void Input() {
-    if (_kbhit()) {
-        switch (_getch()) {
-            case 'a':
-            case 'A':
-                dir = LEFT;
-                break;
-            case 'd':
-            case 'D':
-                dir = RIGHT;
-                break;
-            case 'w':
-            case 'W':
-                dir = UP;
-                break;
-            case 's':
-            case 'S':
-                dir = DOWN;
-                break;
-            case 'x':
-            case 'X':
-                gameOver = true;
-                break;
-        }
-    }
-}
-
-void Logic() {
-    int prevX = tailX[0];
-    int prevY = tailY[0];
-    int prev2X, prev2Y;
-    tailX[0] = x;
-    tailY[0] = y;
-
-    for (int i = 1; i < nTail; i++) {
-        prev2X = tailX[i];
-        prev2Y = tailY[i];
-        tailX[i] = prevX;
-        tailY[i] = prevY;
-        prevX = prev2X;
-        prevY = prev2Y;
-    }
-
-    switch (dir) {
-        case LEFT:
-            x--;
-            break;
-        case RIGHT:
-            x++;
-            break;
-        case UP:
-            y--;
-            break;
-        case DOWN:
-            y++;
-            break;
-        default:
-            break;
-    }
-
-    // Wall collision
-    if (x >= width || x < 0 || y >= height || y < 0)
-        gameOver = true;
-
-    // Tail collision
-    for (int i = 0; i < nTail; i++) {
-        if (tailX[i] == x && tailY[i] == y)
-            gameOver = true;
-    }
-
-    // Fruit collision
-    if (x == fruitX && y == fruitY) {
-        score += 10;
-        fruitX = rand() % width;
-        fruitY = rand() % height;
-        nTail++;
-    }
+// Repositions the cursor to top-left to avoid screen flickering
+void setCursorPosition(int x, int y) {
+    COORD coord = { (SHORT)x, (SHORT)y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
 int main() {
-    Setup();
+    srand(static_cast<unsigned>(time(0)));
+    hideCursor();
+    system("cls");
 
+    // Snake & Game State Variables
+    bool gameOver = false;
+    Point head = { WIDTH / 2, HEIGHT / 2 };
+    vector<Point> tail;
+    Point food = { rand() % WIDTH, rand() % HEIGHT };
+    Direction dir = RIGHT;
+    int score = 0;
+
+    // --- Main Game Loop ---
     while (!gameOver) {
-        Draw();
-        Input();
-        Logic();
-        Sleep(100);
+        // 1. Non-Blocking Key Input
+        if (_kbhit()) {
+            char key = _getch();
+            switch (key) {
+                case 'a': case 'A': if (dir != RIGHT) dir = LEFT; break;
+                case 'd': case 'D': if (dir != LEFT) dir = RIGHT; break;
+                case 'w': case 'W': if (dir != DOWN) dir = UP; break;
+                case 's': case 'S': if (dir != UP) dir = DOWN; break;
+                case 'x': case 'X': gameOver = true; break; // Exit game
+            }
+        }
+
+        // 2. Update Movement Logic
+        Point prevHead = head;
+        switch (dir) {
+            case LEFT:  head.x--; break;
+            case RIGHT: head.x++; break;
+            case UP:    head.y--; break;
+            case DOWN:  head.y++; break;
+            default: break;
+        }
+
+        // Wall Collision Check
+        if (head.x < 0 || head.x >= WIDTH || head.y < 0 || head.y >= HEIGHT) {
+            gameOver = true;
+        }
+
+        // Self-Collision Check
+        for (const auto& segment : tail) {
+            if (segment.x == head.x && segment.y == head.y) {
+                gameOver = true;
+            }
+        }
+
+        // Move Body Tail
+        if (!gameOver) {
+            if (!tail.empty()) {
+                for (size_t i = tail.size() - 1; i > 0; i--) {
+                    tail[i] = tail[i - 1];
+                }
+                tail[0] = prevHead;
+            }
+
+            // Food Collision & Snake Growth
+            if (head.x == food.x && head.y == food.y) {
+                score += 10;
+                tail.push_back(prevHead); // Grow tail
+                food.x = rand() % WIDTH;
+                food.y = rand() % HEIGHT;
+            }
+        }
+
+        // 3. Render Frame
+        string frame = "";
+        
+        // Top Border
+        frame += string(WIDTH + 2, '#') + "\n";
+
+        for (int y = 0; y < HEIGHT; y++) {
+            frame += "#"; // Left Border
+            for (int x = 0; x < WIDTH; x++) {
+                if (x == head.x && y == head.y) {
+                    frame += "O"; // Snake Head
+                } else if (x == food.x && y == food.y) {
+                    frame += "*"; // Food Item
+                } else {
+                    bool isTail = false;
+                    for (const auto& segment : tail) {
+                        if (segment.x == x && segment.y == y) {
+                            frame += "o"; // Snake Body
+                            isTail = true;
+                            break;
+                        }
+                    }
+                    if (!isTail) frame += " ";
+                }
+            }
+            frame += "#\n"; // Right Border
+        }
+
+        // Bottom Border & Controls Display
+        frame += string(WIDTH + 2, '#') + "\n";
+        frame += " SCORE: " + to_string(score) + "   |   Controls: [W][A][S][D]  (Press [X] to Quit)\n";
+
+        // Draw buffer to screen
+        setCursorPosition(0, 0);
+        cout << frame;
+
+        // Game Speed (lower number = faster game)
+        Sleep(70);
     }
 
-    cout << "\nGame Over!" << endl;
-    cout << "Final Score: " << score << endl;
+    // Game Over Message
+    setCursorPosition(0, HEIGHT + 4);
+    cout << "\n==============================\n";
+    cout << "   💥 GAME OVER! 💥\n";
+    cout << "   Final Score: " << score << "\n";
+    cout << "==============================\n\n";
 
     return 0;
 }
