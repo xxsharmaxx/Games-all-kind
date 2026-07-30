@@ -24,9 +24,10 @@ These projects are created as part of daily coding practice to improve programmi
 - 🛕 Temple of God
 - 🤖 AI Chat Terminal Bot
 - 🎯 shooter.cpp
--     Mario.cpp
-- Treasure Hunt Adventure
-- spaceshooter.cpp
+-  Mario.cpp
+-  Treasure Hunt Adventure
+-  spaceshooter.cpp
+-  doom_console.cpp
 - 
 
 ## 🎯 Features
