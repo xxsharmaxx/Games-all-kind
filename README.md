@@ -28,7 +28,7 @@ These projects are created as part of daily coding practice to improve programmi
 -  Treasure Hunt Adventure
 -  spaceshooter.cpp
 -  doom_console.cpp
-- 
+-  platformer.cpp
 
 ## 🎯 Features
 - Console-based gameplay  
