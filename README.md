@@ -29,6 +29,7 @@ These projects are created as part of daily coding practice to improve programmi
 -  spaceshooter.cpp
 -  doom_console.cpp
 -  platformer.cpp
+-  breakout.cpp
 
 ## 🎯 Features
 - Console-based gameplay  
