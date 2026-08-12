@@ -30,6 +30,7 @@ These projects are created as part of daily coding practice to improve programmi
 -  doom_console.cpp
 -  platformer.cpp
 -  breakout.cpp
+-  tetris.cpp
 
 ## 🎯 Features
 - Console-based gameplay  
