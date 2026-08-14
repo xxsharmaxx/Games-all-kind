@@ -37,7 +37,8 @@ These projects are created as part of daily coding practice to improve programmi
 - User input handling  
 - Random number generation  
 - Score tracking system  
-- Simple and interactive logic  
+- Simple and interactive logic
+- advanced 
 
 ---
 
