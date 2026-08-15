@@ -31,6 +31,7 @@ These projects are created as part of daily coding practice to improve programmi
 -  platformer.cpp
 -  breakout.cpp
 -  tetris.cpp
+-  aestroids.cpp
 
 ## 🎯 Features
 - Console-based gameplay  
