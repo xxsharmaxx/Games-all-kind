@@ -32,7 +32,7 @@ These projects are created as part of daily coding practice to improve programmi
 -  breakout.cpp
 -  tetris.cpp
 -  aestroids.cpp
--  
+-  minesweeper.cpp
 
 ## 🎯 Features
 - Console-based gameplay  
