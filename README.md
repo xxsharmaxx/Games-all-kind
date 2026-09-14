@@ -33,6 +33,8 @@ These projects are created as part of daily coding practice to improve programmi
 -  tetris.cpp
 -  aestroids.cpp
 -  minesweeper.cpp
+-  packman.cpp
+
 
 ## 🎯 Features
 - Console-based gameplay  
